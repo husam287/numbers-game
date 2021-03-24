@@ -6,9 +6,12 @@
     (touchend)="clicked=false" (mousemove)="moving($event)" (touchmove)="moving($event)"
     [ngClass]="['btn-'+colorMap[number] , successfullMove===false? 'shake':'']" class="btn mx-1 numberStyle">
 
-    <h3 [ngClass]="[successfullMove===false? 'text-danger shake':successfullMove===true?'text-success':'text-light' ]"
+    <h3 [ngClass]="[successfullMove===false? 'text-danger shake':'text-light' ]"
         class="fw-bolder m-0">
         {{number}}
     </h3>
+    
 
+    
+    
 </div>

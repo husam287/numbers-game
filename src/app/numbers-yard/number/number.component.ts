@@ -75,7 +75,6 @@ export class NumberComponent implements OnInit {
     this.x=this.y=this.clickedPosition.x=this.clickedPosition.y=0;
 
     this.successfullMove = this.controller.swapElement(this.numberArray,this.coordinates.i,this.coordinates.j,direction);
-    console.log(this.successfullMove)
     this.refreshSuccessfulMove();
   }
 
