@@ -1,0 +1,8 @@
+
+<div class="light-background board px-3 pb-2 my-5 d-flex flex-column">
+    <div *ngFor="let arr of numberArray; let i=index" class="d-flex mt-2 justify-content-end">
+        <app-number *ngFor="let number of arr; let j=index" [numberArray]="numberArray" [coordinates]="{i:i,j:j}" [number]="number"></app-number>        
+    </div>
+</div>
+
+

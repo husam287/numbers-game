@@ -1,0 +1,14 @@
+<div [ngStyle]="{
+    position:'relative',
+    top:(y-clickedPosition.y)+'px',
+    left:(x-clickedPosition.x)+'px',
+    'z-index':clicked? 10:1 }" (mousedown)="clicking()" (touchstart)="clicking()" (mouseleave)="clicked=false"
+    (touchend)="clicked=false" (mousemove)="moving($event)" (touchmove)="moving($event)"
+    [ngClass]="['btn-'+colorMap[number] , successfullMove===false? 'shake':'']" class="btn mx-1 numberStyle">
+
+    <h3 [ngClass]="[successfullMove===false? 'text-danger shake':successfullMove===true?'text-success':'text-light' ]"
+        class="fw-bolder m-0">
+        {{number}}
+    </h3>
+
+</div>
