@@ -8,6 +8,8 @@ export class NumbersControllerService {
 
 
   arrayOfNumbers = new Subject<number[][]>();
+  moved = new Subject<boolean>();
+
   constructor() { }
 
 
@@ -59,6 +61,7 @@ export class NumbersControllerService {
     }
 
     this.arrayOfNumbers.next(arr);
+    this.moved.next(swaped);
     return swaped;
   }
 

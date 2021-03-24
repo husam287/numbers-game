@@ -1,0 +1,4 @@
+.textStroke{
+    -webkit-text-stroke-width: .5px;
+    -webkit-text-stroke-color: black;
+}
