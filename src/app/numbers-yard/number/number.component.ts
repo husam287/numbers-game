@@ -33,11 +33,12 @@ export class NumberComponent implements OnInit {
   constructor(private controller:NumbersControllerService,private timerControl:TimerControllerService) { }
 
   ngOnInit(): void {
+    //always checking for win
     this.subs1=this.controller.winNotify.subscribe(iswin=>{
       this.winState=iswin;
     })
 
-    console.log(this.numberArray)
+    //always checking if it paused
     this.subs=this.timerControl.controller.subscribe(op=>{
       if(op==='pause') this.timeIsPaused=true;
       else this.timeIsPaused=false;
@@ -86,13 +87,15 @@ export class NumberComponent implements OnInit {
     else if(left_offset>0 && Math.abs(left_offset) > Math.abs(top_offset) ) direction='right';
 
 
-    this.x=this.y=this.clickedPosition.x=this.clickedPosition.y=0;
+    this.x=this.y=this.clickedPosition.x=this.clickedPosition.y=0; //reset positions
 
+
+    //calculate status of the move
     if(this.timeIsPaused) this.successfullMove=false;
     else this.successfullMove = this.controller.swapElement(this.numberArray.slice(),this.coordinates.i,this.coordinates.j,direction);
     this.refreshSuccessfulMove();
-    console.log(this.successfullMove);
-    if(this.successfullMove) this.controller.isWinner();
+
+    if(this.successfullMove) this.controller.isWinner(); //check if that win or not
   }
 
 

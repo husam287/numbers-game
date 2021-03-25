@@ -28,7 +28,7 @@ export class TimerComponent implements OnInit,OnDestroy {
     this.subs=this.timerController.controller.subscribe(op=>{
       switch (op) {
         case 'play':
-          this.resumeTimer();
+          this.startTimer();
           break;
       
         case 'pause':
@@ -76,15 +76,10 @@ export class TimerComponent implements OnInit,OnDestroy {
     clearInterval(this.intervalFunction);
   }
 
-
-  resumeTimer(){
-    this.startTimer();
-  }
-
   restartTimer(){
     this.stopTimer();
     this.secondsOnes=this.secondsTens=this.minOnes=this.minTens=0;
-    this.resumeTimer();
+    this.startTimer();
   }
 
 

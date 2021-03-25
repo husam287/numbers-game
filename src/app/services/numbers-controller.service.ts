@@ -8,6 +8,7 @@ export class NumbersControllerService {
 
 
   arrayOfNumbers = new Subject<number[][]>();
+  
   moved = new Subject<boolean>();
 
   winNotify = new Subject<boolean>();
@@ -109,6 +110,7 @@ export class NumbersControllerService {
         }
       break;
     }
+
 
     this.arrayOfNumbers.next(arr.slice());
     this.theNumberArrayVar=arr.slice();

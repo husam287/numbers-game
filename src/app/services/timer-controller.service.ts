@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class TimerControllerService {
 
-  controller = new Subject<string>();
+  controller = new Subject<string>(); // play , restart, pause
   constructor() { }
 
   
