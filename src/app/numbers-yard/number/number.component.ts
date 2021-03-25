@@ -37,6 +37,7 @@ export class NumberComponent implements OnInit {
       this.winState=iswin;
     })
 
+    console.log(this.numberArray)
     this.subs=this.timerControl.controller.subscribe(op=>{
       if(op==='pause') this.timeIsPaused=true;
       else this.timeIsPaused=false;
@@ -88,9 +89,9 @@ export class NumberComponent implements OnInit {
     this.x=this.y=this.clickedPosition.x=this.clickedPosition.y=0;
 
     if(this.timeIsPaused) this.successfullMove=false;
-    else this.successfullMove = this.controller.swapElement(this.numberArray,this.coordinates.i,this.coordinates.j,direction);
+    else this.successfullMove = this.controller.swapElement(this.numberArray.slice(),this.coordinates.i,this.coordinates.j,direction);
     this.refreshSuccessfulMove();
-
+    console.log(this.successfullMove);
     if(this.successfullMove) this.controller.isWinner();
   }
 

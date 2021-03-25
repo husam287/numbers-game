@@ -11,8 +11,8 @@ import { TimerControllerService } from '../services/timer-controller.service';
 export class NumbersYardComponent implements OnInit,OnDestroy {
 
   numberArray = [];
-  @Input('scale') scale=1;
 
+  @Input('scale') scale=1;
   scaleString='scale(1)';
 
 
@@ -21,22 +21,32 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
 
   constructor(private controller:NumbersControllerService,private timerController:TimerControllerService) {
 
-    this.subs1=this.controller.arrayOfNumbers.subscribe(arr=>{
-      this.numberArray=arr;
-    })
-
+    
     
   }
   
   ngOnInit(): void {
-    this.controller.setTheArray();
+
+    //init the scale property
     this.scaleString = `scale(${this.scale})`;
 
+    //Detect any change in array of number
+    this.subs1=this.controller.arrayOfNumbers.subscribe(arr=>{
+      this.numberArray=arr.slice();
+    })
+
+    //initial the array of numbers
+    this.controller.setTheArray();
+
+    //if restarted => reinit the array
     this.subs=this.timerController.controller.subscribe(op=>{
       if(op==='restart')
         this.controller.setTheArray();
     })
 
+  }
+  trackByFn(index,item){
+    return item.id;
   }
 
   ngOnDestroy(){

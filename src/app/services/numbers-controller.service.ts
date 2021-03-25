@@ -22,17 +22,18 @@ export class NumbersControllerService {
     let numberArray = [];
     numberArray.push(this.randomizeTheArray([1, 2, 3]));
     numberArray.push(this.randomizeTheArray([4, 5, 6]));
-    numberArray.push(this.randomizeTheArray([7, 8, null]));
+    numberArray.push(this.randomizeTheArray([7, 8, 9]));
 
-    numberArray = this.randomizeTheArray(numberArray);
-    this.arrayOfNumbers.next(numberArray);
+    numberArray = this.randomizeTheArray(numberArray.slice());
+    this.arrayOfNumbers.next(numberArray.slice());
     
-    this.theNumberArrayVar=numberArray;
+    this.theNumberArrayVar=numberArray.slice();
   }
 
+  //for testing
   makewin(){
     let winArray=[
-      [7,8,null],
+      [7,8,9],
       [4,5,6],
       [1,2,3]
     ];
@@ -42,7 +43,7 @@ export class NumbersControllerService {
 
   isWinner(){
     let winArray=[
-      [7,8,null],
+      [7,8,9],
       [4,5,6],
       [1,2,3]
     ];
@@ -52,6 +53,7 @@ export class NumbersControllerService {
     if(win) this.winNotify.next(true);
 
   }
+
 
   private arraysEqual(a, b) {
     if (a === b) return true;
@@ -76,7 +78,7 @@ export class NumbersControllerService {
     let swaped = false;
     switch (swapDirection) {
       case "up":
-        if(i!==0 && !arr[i-1][j]){
+        if(i!==0 && arr[i-1][j]===9){
 
           [ arr[i][j] , arr[i-1][j] ] = [ arr[i-1][j] , arr[i][j] ]; //swaping to up
           swaped=true;
@@ -84,7 +86,7 @@ export class NumbersControllerService {
         break;
 
       case "down":
-        if(i!==2 && !arr[i+1][j]){
+        if(i!==2 && arr[i+1][j]===9){
 
           [ arr[i][j] , arr[i+1][j] ] = [ arr[i+1][j] , arr[i][j] ]; //swaping to down
           swaped=true;
@@ -92,7 +94,7 @@ export class NumbersControllerService {
         break;
 
       case "right":
-        if(j!=2 && !arr[i][j+1]){
+        if(j!=2 && arr[i][j+1]===9){
           
           [ arr[i][j] , arr[i][j+1] ] = [ arr[i][j+1] , arr[i][j] ]; //swaping to right
           swaped=true;
@@ -100,7 +102,7 @@ export class NumbersControllerService {
         break;
 
       case "left":
-        if(j!=0 && !arr[i][j-1]){
+        if(j!=0 && arr[i][j-1]===9){
 
           [ arr[i][j] , arr[i][j-1] ] = [ arr[i][j-1] , arr[i][j] ]; //swaping to left
           swaped=true;
@@ -108,8 +110,8 @@ export class NumbersControllerService {
       break;
     }
 
-    this.arrayOfNumbers.next(arr);
-    this.theNumberArrayVar=arr;
+    this.arrayOfNumbers.next(arr.slice());
+    this.theNumberArrayVar=arr.slice();
 
     this.moved.next(swaped);
     return swaped;
@@ -131,6 +133,6 @@ export class NumbersControllerService {
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temp;
     }
-    return array;
+    return array.slice();
   }
 }
