@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NumbersControllerService } from '../services/numbers-controller.service';
+import { TimerControllerService } from '../services/timer-controller.service';
 
 @Component({
   selector: 'app-moves',
@@ -13,9 +14,14 @@ export class MovesComponent implements OnInit,OnDestroy {
   wrong=false;
 
   subs:Subscription;
-  constructor(private controller:NumbersControllerService) { }
+  subs1:Subscription;
+  constructor(private controller:NumbersControllerService,private timerController:TimerControllerService) { }
 
   ngOnInit(): void {
+    this.subs1=this.timerController.controller.subscribe(op=>{
+      if(op==='restart') this.moves=0;
+    })
+
     this.subs=this.controller.moved.subscribe(moved=>{
       if(moved) this.moves++;
       else {
@@ -27,6 +33,7 @@ export class MovesComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(){
     this.subs.unsubscribe();
+    this.subs1.unsubscribe();
   }
 
   private resetWrong(){

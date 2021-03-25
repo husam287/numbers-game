@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NumbersControllerService } from '../services/numbers-controller.service';
+import { TimerControllerService } from '../services/timer-controller.service';
 
 @Component({
   selector: 'app-numbers-yard',
@@ -14,9 +15,12 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
 
   scaleString='scale(1)';
 
-  subs1:Subscription;
 
-  constructor( private controller:NumbersControllerService) {
+  subs1:Subscription;
+  subs:Subscription;
+
+  constructor(private controller:NumbersControllerService,private timerController:TimerControllerService) {
+
     this.subs1=this.controller.arrayOfNumbers.subscribe(arr=>{
       this.numberArray=arr;
     })
@@ -27,15 +31,24 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.controller.setTheArray();
     this.scaleString = `scale(${this.scale})`;
+
+    this.subs=this.timerController.controller.subscribe(op=>{
+      if(op==='restart')
+        this.controller.setTheArray();
+    })
+
   }
 
   ngOnDestroy(){
     this.subs1.unsubscribe();
+    this.subs.unsubscribe();
   }
 
 
   
-
+  test(){
+    this.controller.makewin();
+  }
   
 
   

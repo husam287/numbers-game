@@ -7,6 +7,7 @@ import { NumberComponent } from './numbers-yard/number/number.component';
 import { NumbersYardComponent } from './numbers-yard/numbers-yard.component';
 import { MovesComponent } from './moves/moves.component';
 import { TimerComponent } from './timer/timer.component';
+import { TimerControlBarComponent } from './timer-control-bar/timer-control-bar.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { TimerComponent } from './timer/timer.component';
     NumberComponent,
     NumbersYardComponent,
     MovesComponent,
-    TimerComponent
+    TimerComponent,
+    TimerControlBarComponent
   ],
   imports: [
     BrowserModule,

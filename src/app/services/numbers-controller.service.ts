@@ -10,6 +10,10 @@ export class NumbersControllerService {
   arrayOfNumbers = new Subject<number[][]>();
   moved = new Subject<boolean>();
 
+  winNotify = new Subject<boolean>();
+
+  theNumberArrayVar:number[][];
+
   constructor() { }
 
 
@@ -22,7 +26,51 @@ export class NumbersControllerService {
 
     numberArray = this.randomizeTheArray(numberArray);
     this.arrayOfNumbers.next(numberArray);
+    
+    this.theNumberArrayVar=numberArray;
   }
+
+  makewin(){
+    let winArray=[
+      [7,8,null],
+      [4,5,6],
+      [1,2,3]
+    ];
+    this.arrayOfNumbers.next(winArray);
+    this.theNumberArrayVar=winArray;
+  }
+
+  isWinner(){
+    let winArray=[
+      [7,8,null],
+      [4,5,6],
+      [1,2,3]
+    ];
+
+    let win = this.arraysEqual(winArray,this.theNumberArrayVar);
+    
+    if(win) this.winNotify.next(true);
+
+  }
+
+  private arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+  
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i].length !== b[i].length) return false;
+    }
+
+    for (let i = 0; i < a.length; i++) {
+      for (let j = 0; j < a.length; j++) {
+        if(a[i][j]!==b[i][j]) return false;
+      }  
+    }
+    return true;
+    
+  }
+
 
   swapElement(arr:number[][], i: number, j: number, swapDirection: string) {
     let swaped = false;
@@ -61,6 +109,8 @@ export class NumbersControllerService {
     }
 
     this.arrayOfNumbers.next(arr);
+    this.theNumberArrayVar=arr;
+
     this.moved.next(swaped);
     return swaped;
   }

@@ -1,0 +1,10 @@
+<div class="d-flex my-1 justify-content-between">
+
+    <i *ngIf="paused && !isWin" (click)="pause()" class="h2 text-success bi bi-play-fill"></i>
+    <i *ngIf="!paused &&!isWin" (click)="pause()" class="h2 text-secondary bi bi-pause-fill"></i>
+
+    <h3 *ngIf="isWin" class="">Score <span class="text-secondary fw-bolder">{{score}}</span></h3>
+
+    <i [ngClass]="restarted? 'restartAnimation':'' " (click)="restart()" class="h2 text-primary bi bi-arrow-clockwise"></i>
+
+</div>

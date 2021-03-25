@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { NumbersControllerService } from 'src/app/services/numbers-controller.service';
+import { TimerControllerService } from 'src/app/services/timer-controller.service';
 
 @Component({
   selector: 'app-number',
@@ -22,12 +24,24 @@ export class NumberComponent implements OnInit {
   @Input('numberArray') numberArray;
 
   successfullMove=null;
-  
-  
-  constructor(private controller:NumbersControllerService) { }
+  timeIsPaused=false;
+
+  winState=false;
+
+  subs1:Subscription;
+  subs:Subscription;
+  constructor(private controller:NumbersControllerService,private timerControl:TimerControllerService) { }
 
   ngOnInit(): void {
-    
+    this.subs1=this.controller.winNotify.subscribe(iswin=>{
+      this.winState=iswin;
+      console.log(this.winState)
+    })
+
+    this.subs=this.timerControl.controller.subscribe(op=>{
+      if(op==='pause') this.timeIsPaused=true;
+      else this.timeIsPaused=false;
+    })
   }
 
   clicking(){
@@ -36,7 +50,8 @@ export class NumberComponent implements OnInit {
 
 
   moving(event){
-    if(this.clicked){
+    console.log(this.winState)
+    if(this.clicked && !this.winState){
       if(this.clickedPosition.x===0 ) this.clickedPosition.x = event.pageX || event.touches[0].pageX;
       if(this.clickedPosition.y===0) this.clickedPosition.y = event.pageY || event.touches[0].pageY;
 
@@ -74,8 +89,11 @@ export class NumberComponent implements OnInit {
 
     this.x=this.y=this.clickedPosition.x=this.clickedPosition.y=0;
 
-    this.successfullMove = this.controller.swapElement(this.numberArray,this.coordinates.i,this.coordinates.j,direction);
+    if(this.timeIsPaused) this.successfullMove=false;
+    else this.successfullMove = this.controller.swapElement(this.numberArray,this.coordinates.i,this.coordinates.j,direction);
     this.refreshSuccessfulMove();
+
+    if(this.successfullMove) this.controller.isWinner();
   }
 
 
