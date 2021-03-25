@@ -35,7 +35,6 @@ export class NumberComponent implements OnInit {
   ngOnInit(): void {
     this.subs1=this.controller.winNotify.subscribe(iswin=>{
       this.winState=iswin;
-      console.log(this.winState)
     })
 
     this.subs=this.timerControl.controller.subscribe(op=>{
@@ -50,7 +49,6 @@ export class NumberComponent implements OnInit {
 
 
   moving(event){
-    console.log(this.winState)
     if(this.clicked && !this.winState){
       if(this.clickedPosition.x===0 ) this.clickedPosition.x = event.pageX || event.touches[0].pageX;
       if(this.clickedPosition.y===0) this.clickedPosition.y = event.pageY || event.touches[0].pageY;
