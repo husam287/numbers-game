@@ -15,6 +15,7 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
   winner=false;
 
   @Input('scale') scale=1;
+  @Input('viewMode') viewMode=false;
   scaleString='scale(1)';
 
 
@@ -31,7 +32,8 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
 
     //Detect any change in array of number
     this.subs1=this.controller.arrayOfNumbers.subscribe(arr=>{
-      this.numberArray=arr.slice();
+      if(!this.viewMode) this.numberArray=arr.slice();
+      else this.numberArray=this.controller.winArray.slice();
     })
 
     //initial the array of numbers
@@ -51,6 +53,7 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
       this.winner=win;
     });
 
+
   }
 
   trackByFn(index,item){
@@ -64,7 +67,7 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
   }
 
 
-  test(){
+  makeMeWin(){
     this.controller.makewin();
   }
   

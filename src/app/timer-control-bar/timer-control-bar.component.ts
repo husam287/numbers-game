@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NumbersControllerService } from '../services/numbers-controller.service';
+import { ScoreService } from '../services/score.service';
 import { TimerControllerService } from '../services/timer-controller.service';
 
 @Component({
@@ -16,15 +17,23 @@ export class TimerControlBarComponent implements OnInit,OnDestroy {
   score=0;
   isWin=false;
 
+  subs1:Subscription;
   subs:Subscription;
-  constructor(private timerController:TimerControllerService,private controller:NumbersControllerService) { }
+  
+  constructor(private timerController:TimerControllerService,private controller:NumbersControllerService,private scoreController:ScoreService) { }
 
   ngOnInit(): void {
+
+    this.subs1=this.scoreController.getScore().subscribe(winScore=>{
+      this.score=winScore;
+    })
 
     this.subs=this.controller.winNotify.subscribe(isAWin=>{
       if(isAWin) {
         this.pause();
         this.win();
+        this.scoreController.calculateScore();
+        
       }
       else{
         this.isWin=false;
@@ -34,6 +43,7 @@ export class TimerControlBarComponent implements OnInit,OnDestroy {
   }
   ngOnDestroy(){
     this.subs.unsubscribe();
+    this.subs1.unsubscribe();
   }
 
   pause(){

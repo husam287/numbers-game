@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NumbersControllerService } from '../services/numbers-controller.service';
+import { ScoreService } from '../services/score.service';
 import { TimerControllerService } from '../services/timer-controller.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class MovesComponent implements OnInit,OnDestroy {
 
   subs:Subscription;
   subs1:Subscription;
-  constructor(private controller:NumbersControllerService,private timerController:TimerControllerService) { }
+  constructor(private controller:NumbersControllerService,private timerController:TimerControllerService,private scoreController:ScoreService) { }
 
   ngOnInit(): void {
     this.subs1=this.timerController.controller.subscribe(op=>{
@@ -27,6 +28,12 @@ export class MovesComponent implements OnInit,OnDestroy {
       else {
         this.wrong=true;
         this.resetWrong();
+      }
+    })
+
+    this.controller.winNotify.subscribe(isWin=>{
+      if(isWin){
+        this.scoreController.setMoves(this.moves);
       }
     })
   }

@@ -22,6 +22,7 @@ export class NumberComponent implements OnInit {
   @Input('number') number:number=2;
   @Input('coordinates') coordinates:{'i':number,'j':number};
   @Input('numberArray') numberArray;
+  @Input('viewMode') viewMode=false;
 
   successfullMove=null;
   timeIsPaused=false;
@@ -47,7 +48,7 @@ export class NumberComponent implements OnInit {
 
   
   clicking(){
-    this.clicked=true;
+    if(!this.viewMode) this.clicked=true;
   }
 
 
