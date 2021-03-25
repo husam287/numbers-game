@@ -6,14 +6,16 @@ import { Subject } from 'rxjs';
 })
 export class NumbersControllerService {
 
-
+  // observe the numbers
   arrayOfNumbers = new Subject<number[][]>();
   
+  // observe the successful moves
   moved = new Subject<boolean>();
 
+  // observe the win moment
   winNotify = new Subject<boolean>();
 
-  theNumberArrayVar:number[][];
+  theNumberArrayVar:number[][]; //array of nnumbers
 
   constructor() { }
 

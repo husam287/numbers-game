@@ -45,6 +45,7 @@ export class NumberComponent implements OnInit {
     })
   }
 
+  
   clicking(){
     this.clicked=true;
   }

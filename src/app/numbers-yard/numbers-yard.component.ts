@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NumbersControllerService } from '../services/numbers-controller.service';
 import { TimerControllerService } from '../services/timer-controller.service';
@@ -12,18 +12,17 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
 
   numberArray = [];
 
+  winner=false;
+
   @Input('scale') scale=1;
   scaleString='scale(1)';
 
 
+  subs2:Subscription;
   subs1:Subscription;
   subs:Subscription;
 
-  constructor(private controller:NumbersControllerService,private timerController:TimerControllerService) {
-
-    
-    
-  }
+  constructor(private controller:NumbersControllerService,private timerController:TimerControllerService) {}
   
   ngOnInit(): void {
 
@@ -40,22 +39,31 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
 
     //if restarted => reinit the array
     this.subs=this.timerController.controller.subscribe(op=>{
-      if(op==='restart')
+      if(op==='restart'){
         this.controller.setTheArray();
+        this.winner=false;
+      }
     })
 
+
+    // if win show the winner slogan
+    this.subs2=this.controller.winNotify.subscribe(win=>{
+      this.winner=win;
+    });
+
   }
+
   trackByFn(index,item){
     return item.id;
   }
 
   ngOnDestroy(){
+    this.subs2.unsubscribe();
     this.subs1.unsubscribe();
     this.subs.unsubscribe();
   }
 
 
-  
   test(){
     this.controller.makewin();
   }

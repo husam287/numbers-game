@@ -13,8 +13,8 @@
 
 <app-timer-control-bar></app-timer-control-bar>
 
-<div (click)="test()"><h3 class="text-success text-center getChanging"> Winner !!!</h3></div>
+<div *ngIf="winner"  ><h3 class="text-success text-center getChanging"> Winner !!!</h3></div>
 
-
+<button (click)="test()">d</button>
 
 
