@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NumbersControllerService } from '../services/numbers-controller.service';
-import { ScoreService } from '../services/score.service';
-import { TimerControllerService } from '../services/timer-controller.service';
+import { NumbersControllerService } from '../../services/number-controller/numbers-controller.service';
+import { ScoreService } from '../../services/score-controller/score.service';
+import { TimerControllerService } from '../../services/timer-controller/timer-controller.service';
+
 
 @Component({
   selector: 'app-moves',
@@ -16,13 +17,17 @@ export class MovesComponent implements OnInit,OnDestroy {
 
   subs:Subscription;
   subs1:Subscription;
+  
   constructor(private controller:NumbersControllerService,private timerController:TimerControllerService,private scoreController:ScoreService) { }
 
   ngOnInit(): void {
+
+    //observe when the game get reset
     this.subs1=this.timerController.controller.subscribe(op=>{
       if(op==='restart') this.moves=0;
     })
 
+    //observe when a block moved
     this.subs=this.controller.moved.subscribe(moved=>{
       if(moved) this.moves++;
       else {
@@ -31,6 +36,7 @@ export class MovesComponent implements OnInit,OnDestroy {
       }
     })
 
+    //observe the win state
     this.controller.winNotify.subscribe(isWin=>{
       if(isWin){
         this.scoreController.setMoves(this.moves);
@@ -43,6 +49,9 @@ export class MovesComponent implements OnInit,OnDestroy {
     this.subs1.unsubscribe();
   }
 
+  /**
+   * reset wrong attribute to false after 300 second
+   */
   private resetWrong(){
     setTimeout(() => {
       this.wrong=false;

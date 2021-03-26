@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NumbersControllerService } from '../services/numbers-controller.service';
-import { TimerControllerService } from '../services/timer-controller.service';
+import { NumbersControllerService } from '../../services/number-controller/numbers-controller.service';
+import { TimerControllerService } from '../../services/timer-controller/timer-controller.service';
 
 @Component({
   selector: 'app-numbers-yard',
@@ -12,8 +12,9 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
 
   numberArray = [];
 
-  winner=false;
+  winner=false; //check if winner or not
 
+  //for customization
   @Input('scale') scale=1;
   @Input('viewMode') viewMode=false;
   scaleString='scale(1)';
@@ -56,17 +57,22 @@ export class NumbersYardComponent implements OnInit,OnDestroy {
 
   }
 
-  trackByFn(index,item){
-    return item.id;
-  }
-
   ngOnDestroy(){
     this.subs2.unsubscribe();
     this.subs1.unsubscribe();
     this.subs.unsubscribe();
   }
 
+  //function used by angular in ngFor.
+  //to not recreate elements when the array changes
+  trackByFn(index,item){
+    return item.id;
+  }
 
+  
+  /**
+   * testing function make immediate win
+   */
   makeMeWin(){
     this.controller.makewin();
   }
